@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-8">
+Shopping List
+</h1>
+
+
+<div class="bg-white rounded-xl shadow p-6">
+
+{% for item in items %}
+
+<div class="flex justify-between border-b py-3">
+
+<span>{{item.product_name}}</span>
+
+<span class="text-slate-500">{{item.quantity}}</span>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

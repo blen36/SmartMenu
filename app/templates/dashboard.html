@@ -1,0 +1,105 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-8">
+Dashboard
+</h1>
+
+
+<div class="grid grid-cols-3 gap-6 mb-10">
+
+<div class="bg-white rounded-xl shadow p-6">
+
+<h2 class="text-xl font-semibold mb-3">
+Ваш профиль
+</h2>
+
+<p class="text-slate-600">
+Заполните профиль, чтобы получать рекомендации питания
+</p>
+
+<a href="/profile-form">
+
+<button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">
+Заполнить профиль
+</button>
+
+</a>
+
+</div>
+
+
+<div class="bg-white rounded-xl shadow p-6">
+
+<h2 class="text-xl font-semibold mb-3">
+План питания
+</h2>
+
+<p class="text-slate-600">
+Создайте меню на неделю
+</p>
+
+<a href="/planner">
+
+<button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">
+Создать меню
+</button>
+
+</a>
+
+</div>
+
+
+<div class="bg-white rounded-xl shadow p-6">
+
+<h2 class="text-xl font-semibold mb-3">
+Рецепты
+</h2>
+
+<p class="text-slate-600">
+Посмотреть рецепты
+</p>
+
+<a href="/recipes">
+
+<button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">
+Открыть
+</button>
+
+</a>
+
+</div>
+
+</div>
+
+
+<h2 class="text-2xl font-semibold mb-6">
+Последние рецепты
+</h2>
+
+
+<div class="grid grid-cols-3 gap-6">
+
+{% for recipe in recipes %}
+
+<div class="bg-white rounded-xl shadow p-4">
+
+<img src="/static/images/food.jpg"
+class="rounded-lg mb-4 w-full h-40 object-cover">
+
+<h3 class="font-semibold">
+{{recipe.name}}
+</h3>
+
+<p class="text-slate-500">
+{{recipe.calories}} kcal
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

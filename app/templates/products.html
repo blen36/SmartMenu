@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-8">
+Products
+</h1>
+
+
+<div class="grid grid-cols-3 gap-6">
+
+{% for product in products %}
+
+<div class="bg-white rounded-xl shadow p-5">
+
+<h2 class="text-xl font-semibold mb-3">
+{{ product.name }}
+</h2>
+
+<p class="text-slate-500">Calories: {{product.calories}}</p>
+
+<p class="text-slate-500">Protein: {{product.protein}}</p>
+
+<p class="text-slate-500">Fat: {{product.fat}}</p>
+
+<p class="text-slate-500">Carbs: {{product.carbs}}</p>
+
+<p class="text-green-600 font-semibold mt-2">
+$ {{product.price}}
+</p>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}

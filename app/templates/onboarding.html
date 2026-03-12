@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="max-w-xl mx-auto">
+
+<!-- progress -->
+
+<div class="w-full bg-gray-200 rounded-full h-3 mb-10">
+
+<div class="bg-green-500 h-3 rounded-full"
+style="width: {{step * 12.5}}%">
+</div>
+
+</div>
+
+
+{% if step == 1 %}
+
+<h2 class="text-xl font-semibold mb-6">
+Что вы хотите достичь?
+</h2>
+
+<div class="space-y-4">
+
+<button class="option">Похудеть</button>
+<button class="option">Поддерживать вес</button>
+<button class="option">Набрать массу</button>
+<button class="option">Улучшить питание</button>
+
+</div>
+
+{% endif %}
+
+
+{% if step == 2 %}
+
+<h2 class="text-xl font-semibold mb-6">
+Ваш пол
+</h2>
+
+<div class="space-y-4">
+
+<button class="option">Мужчина</button>
+<button class="option">Женщина</button>
+
+</div>
+
+{% endif %}
+
+
+<div class="mt-10 text-right">
+
+<a href="/onboarding/{{step + 1}}">
+
+<button class="bg-black text-white px-6 py-3 rounded-lg">
+Следующий
+</button>
+
+</a>
+
+</div>
+
+</div>
+
+{% endblock %}

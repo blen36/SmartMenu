@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-8">
+Weekly Meal Planner
+</h1>
+
+
+<div class="bg-white rounded-xl shadow p-6 mb-10">
+
+<form action="/add-meal" method="post">
+
+<div class="grid grid-cols-3 gap-4">
+
+<select name="day_of_week" class="border rounded p-3">
+
+<option>Monday</option>
+<option>Tuesday</option>
+<option>Wednesday</option>
+<option>Thursday</option>
+<option>Friday</option>
+<option>Saturday</option>
+<option>Sunday</option>
+
+</select>
+
+
+<select name="recipe_id" class="border rounded p-3">
+
+{% for recipe in recipes %}
+
+<option value="{{recipe.id}}">
+{{recipe.name}}
+</option>
+
+{% endfor %}
+
+</select>
+
+
+<button class="bg-green-600 hover:bg-green-700 text-white rounded p-3">
+
+Add Meal
+
+</button>
+
+</div>
+
+</form>
+
+</div>
+
+
+<h2 class="text-xl font-semibold mb-4">
+Your Plan
+</h2>
+
+
+<div class="bg-white rounded-xl shadow">
+
+<table class="w-full">
+
+<thead class="border-b">
+
+<tr>
+
+<th class="p-4 text-left">Day</th>
+
+<th class="p-4 text-left">Recipe</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+{% for plan in plans %}
+
+<tr class="border-b">
+
+<td class="p-4">{{plan.day_of_week}}</td>
+
+<td class="p-4">{{plan.recipe_id}}</td>
+
+</tr>
+
+{% endfor %}
+
+</tbody>
+
+</table>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container">
+
+<h2>Создать аккаунт</h2>
+
+<form action="/register-form" method="post">
+
+<input type="email" name="email" placeholder="Email">
+
+<input type="password" name="password" placeholder="Пароль">
+
+<button type="submit">
+Регистрация
+</button>
+
+</form>
+
+</div>
+
+{% endblock %}

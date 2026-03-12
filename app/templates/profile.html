@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<h1 class="text-3xl font-bold mb-8">
+Profile
+</h1>
+
+{% if profile %}
+
+<div class="bg-white p-6 rounded-xl shadow w-96">
+
+<p><b>Возраст:</b> {{profile.age}}</p>
+<p><b>Рост:</b> {{profile.height}} cm</p>
+<p><b>Вес:</b> {{profile.weight}} kg</p>
+<p><b>Цель:</b> {{profile.goal}}</p>
+<p><b>Аллергии:</b> {{profile.allergies}}</p>
+
+<a href="/profile-form">
+
+<button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">
+Редактировать
+</button>
+
+</a>
+
+</div>
+
+{% else %}
+
+<p>Профиль ещё не заполнен</p>
+
+<a href="/profile-form">
+
+<button class="bg-green-600 text-white px-4 py-2 rounded">
+Заполнить профиль
+</button>
+
+</a>
+
+{% endif %}
+
+{% endblock %}

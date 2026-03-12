@@ -1,13 +1,36 @@
-from fastapi import FastAPI
-from app.database.db import engine
-from app.models import user
-from app.routers import users
+from fastapi import FastAPI, Request
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
+from app.database.db import Base, engine
+from app import models
+
+from app.routers import users, recipes, products, planner, shopping, dashboard, onboarding
 
 app = FastAPI()
 
-user.Base.metadata.create_all(bind=engine)
+# создаем таблицы
+Base.metadata.create_all(bind=engine)
 
-app.include_router(users.router)
+# templates
+templates = Jinja2Templates(directory="app/templates")
+
+# static
+app.mount("/static", StaticFiles(directory="app/static"), name="static")
+
+# главная страница
 @app.get("/")
-def home():
-    return {"message": "API is working"}
+def home(request: Request):
+    return templates.TemplateResponse(
+        "index.html",
+        {"request": request}
+    )
+
+# подключаем routers
+app.include_router(users.router)
+app.include_router(recipes.router)
+app.include_router(products.router)
+app.include_router(planner.router)
+app.include_router(shopping.router)
+app.include_router(dashboard.router)
+app.include_router(onboarding.router)
