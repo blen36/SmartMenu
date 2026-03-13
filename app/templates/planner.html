@@ -3,59 +3,115 @@
 {% block content %}
 
 <h1 class="text-3xl font-bold mb-8">
-Weekly Meal Planner
+План питания
 </h1>
 
 
-<div class="bg-white rounded-xl shadow p-6 mb-10">
+<!-- SEARCH -->
 
-<form action="/add-meal" method="post">
+<div class="bg-white p-6 rounded-xl shadow mb-8">
 
-<div class="grid grid-cols-3 gap-4">
+<h2 class="text-xl font-semibold mb-4">
+Поиск рецептов
+</h2>
 
-<select name="day_of_week" class="border rounded p-3">
+<form action="/search-recipes" method="post" class="flex gap-4">
 
-<option>Monday</option>
-<option>Tuesday</option>
-<option>Wednesday</option>
-<option>Thursday</option>
-<option>Friday</option>
-<option>Saturday</option>
-<option>Sunday</option>
+<input
+name="query"
+placeholder="Например: chicken, pasta, salad"
+class="border p-3 rounded w-72"
+/>
 
-</select>
-
-
-<select name="recipe_id" class="border rounded p-3">
-
-{% for recipe in recipes %}
-
-<option value="{{recipe.id}}">
-{{recipe.name}}
-</option>
-
-{% endfor %}
-
-</select>
-
-
-<button class="bg-green-600 hover:bg-green-700 text-white rounded p-3">
-
-Add Meal
-
+<button
+class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded"
+>
+Search
 </button>
-
-</div>
 
 </form>
 
 </div>
 
 
+
+<!-- RESULTS -->
+
+{% if recipes %}
+
 <h2 class="text-xl font-semibold mb-4">
-Your Plan
+Результаты поиска
 </h2>
 
+<div class="grid grid-cols-3 gap-6 mb-10">
+
+{% for recipe in recipes %}
+
+<div class="bg-white shadow rounded-xl p-4">
+
+<img
+src="{{recipe.image}}"
+class="mb-4 rounded-lg w-full h-40 object-cover"
+/>
+
+<h3 class="font-semibold mb-3">
+{{recipe.name}}
+</h3>
+
+<form action="/add-meal" method="post">
+
+<input
+type="hidden"
+name="recipe_name"
+value="{{recipe.name}}"
+/>
+
+<select
+name="day_of_week"
+class="border p-2 rounded mb-3 w-full"
+>
+
+<option value="Monday">Monday</option>
+<option value="Tuesday">Tuesday</option>
+<option value="Wednesday">Wednesday</option>
+<option value="Thursday">Thursday</option>
+<option value="Friday">Friday</option>
+<option value="Saturday">Saturday</option>
+<option value="Sunday">Sunday</option>
+
+</select>
+
+<button
+class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full"
+>
+
+Добавить в меню
+
+</button>
+
+</form>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% elif recipes is defined %}
+
+<p class="text-slate-500 mb-8">
+Ничего не найдено
+</p>
+
+{% endif %}
+
+
+
+<!-- WEEK PLAN -->
+
+<h2 class="text-xl font-semibold mb-4">
+Ваш план питания
+</h2>
 
 <div class="bg-white rounded-xl shadow">
 
@@ -65,9 +121,13 @@ Your Plan
 
 <tr>
 
-<th class="p-4 text-left">Day</th>
+<th class="p-4 text-left">
+День
+</th>
 
-<th class="p-4 text-left">Recipe</th>
+<th class="p-4 text-left">
+Рецепт
+</th>
 
 </tr>
 
@@ -79,9 +139,13 @@ Your Plan
 
 <tr class="border-b">
 
-<td class="p-4">{{plan.day_of_week}}</td>
+<td class="p-4">
+{{plan.day_of_week}}
+</td>
 
-<td class="p-4">{{plan.recipe_id}}</td>
+<td class="p-4">
+{{plan.recipe_name}}
+</td>
 
 </tr>
 

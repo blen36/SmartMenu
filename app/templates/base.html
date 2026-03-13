@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 
 <meta charset="UTF-8">
@@ -7,31 +8,16 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 
+<link rel="stylesheet" href="/static/css/style.css">
+
 </head>
 
-<style>
 
-.option{
-width:100%;
-padding:16px;
-border:2px solid #e5e7eb;
-border-radius:14px;
-text-align:left;
-transition:0.2s;
-}
-
-.option:hover{
-border-color:#22c55e;
-background:#f0fdf4;
-}
-
-</style>
-<link rel="stylesheet" href="/static/css/style.css">
 <body class="bg-slate-50 text-slate-800">
 
 <!-- NAVBAR -->
 
-<nav class="bg-white border-b border-slate-200">
+<nav class="bg-white border-b border-slate-200 shadow-sm">
 
 <div class="max-w-6xl mx-auto flex justify-between items-center p-4">
 
@@ -39,17 +25,36 @@ background:#f0fdf4;
 SmartMenu
 </a>
 
+
 <div class="space-x-6 text-slate-600 font-medium">
 
-<a href="/dashboard" class="hover:text-green-600">Dashboard</a>
+<a href="/dashboard" class="hover:text-green-600">
+Dashboard
+</a>
 
-<a href="/recipes" class="hover:text-green-600">Recipes</a>
+<a href="/recipes" class="hover:text-green-600">
+Recipes
+</a>
 
-<a href="/products" class="hover:text-green-600">Products</a>
+<a href="/products" class="hover:text-green-600">
+Products
+</a>
 
-<a href="/planner" class="hover:text-green-600">Planner</a>
+<a href="/planner" class="hover:text-green-600">
+Planner
+</a>
 
-<a href="/shopping-list" class="hover:text-green-600">Shopping</a>
+<a href="/shopping-list" class="hover:text-green-600">
+Shopping
+</a>
+
+<a href="/profile" class="hover:text-green-600">
+Profile
+</a>
+
+<a href="/logout" class="text-red-500 hover:text-red-600">
+Logout
+</a>
 
 </div>
 
@@ -58,7 +63,7 @@ SmartMenu
 </nav>
 
 
-<!-- PAGE -->
+<!-- PAGE CONTENT -->
 
 <div class="max-w-6xl mx-auto p-8">
 
@@ -67,6 +72,15 @@ SmartMenu
 {% endblock %}
 
 </div>
+
+
+<!-- FOOTER -->
+
+<footer class="mt-10 border-t border-slate-200 py-6 text-center text-slate-500 text-sm">
+
+SmartMenu © 2026
+
+</footer>
 
 
 </body>

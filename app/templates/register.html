@@ -2,21 +2,51 @@
 
 {% block content %}
 
-<div class="container">
+<div class="flex justify-center">
 
-<h2>Создать аккаунт</h2>
+<div class="bg-white p-8 rounded-xl shadow w-96">
 
-<form action="/register-form" method="post">
-
-<input type="email" name="email" placeholder="Email">
-
-<input type="password" name="password" placeholder="Пароль">
-
-<button type="submit">
+<h2 class="text-2xl font-bold mb-6 text-center">
 Регистрация
+</h2>
+
+<form action="/register-form" method="post" class="space-y-4">
+
+<input
+type="email"
+name="email"
+placeholder="Email"
+class="w-full border p-3 rounded"
+/>
+
+<input
+type="password"
+name="password"
+placeholder="Password"
+class="w-full border p-3 rounded"
+/>
+
+<button
+class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded"
+>
+
+Создать аккаунт
+
 </button>
 
 </form>
+
+<p class="text-center mt-4 text-sm text-slate-600">
+
+Уже есть аккаунт?
+
+<a href="/login-page" class="text-green-600">
+Войти
+</a>
+
+</p>
+
+</div>
 
 </div>
 

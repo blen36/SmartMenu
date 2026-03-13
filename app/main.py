@@ -2,12 +2,20 @@ from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 
+from starlette.middleware.sessions import SessionMiddleware
+
 from app.database.db import Base, engine
 from app import models
 
 from app.routers import users, recipes, products, planner, shopping, dashboard, onboarding
 
 app = FastAPI()
+
+# сессии пользователей
+app.add_middleware(
+    SessionMiddleware,
+    secret_key="super-secret-key"
+)
 
 # создаем таблицы
 Base.metadata.create_all(bind=engine)
@@ -18,7 +26,7 @@ templates = Jinja2Templates(directory="app/templates")
 # static
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
 
-# главная страница
+
 @app.get("/")
 def home(request: Request):
     return templates.TemplateResponse(
@@ -26,7 +34,8 @@ def home(request: Request):
         {"request": request}
     )
 
-# подключаем routers
+
+# routers
 app.include_router(users.router)
 app.include_router(recipes.router)
 app.include_router(products.router)

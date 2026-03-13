@@ -1,33 +1,68 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Profile</title>
-<link rel="stylesheet" href="/static/css/style.css">
-</head>
+{% extends "base.html" %}
 
-<body>
+{% block content %}
 
-<div class="container">
+<h1 class="text-3xl font-bold mb-8">
+Редактирование профиля
+</h1>
 
-<h2>Профиль пользователя</h2>
+<div class="bg-white p-8 rounded-xl shadow w-96">
 
-<form action="/save-profile" method="post">
+<form action="/save-profile" method="post" class="space-y-4">
 
-<input type="number" name="age" placeholder="Возраст">
+<input
+type="number"
+name="age"
+value="{{profile.age if profile else ''}}"
+placeholder="Возраст"
+class="w-full border p-3 rounded"
+/>
 
-<input type="number" name="height" placeholder="Рост (см)">
+<input
+type="number"
+name="height"
+value="{{profile.height if profile else ''}}"
+placeholder="Рост (см)"
+class="w-full border p-3 rounded"
+/>
 
-<input type="number" name="weight" placeholder="Вес (кг)">
+<input
+type="number"
+name="weight"
+value="{{profile.weight if profile else ''}}"
+placeholder="Вес (кг)"
+class="w-full border p-3 rounded"
+/>
 
-<input type="text" name="goal" placeholder="Цель (похудение / набор массы)">
+<select
+name="goal"
+class="w-full border p-3 rounded"
+>
 
-<input type="text" name="allergies" placeholder="Аллергии">
+<option value="lose_weight">Похудение</option>
+<option value="maintain">Поддержание</option>
+<option value="gain_weight">Набор массы</option>
 
-<button type="submit">Сохранить профиль</button>
+</select>
+
+<input
+type="text"
+name="allergies"
+value="{{profile.allergies if profile else ''}}"
+placeholder="Аллергии"
+class="w-full border p-3 rounded"
+/>
+
+<button
+class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full"
+>
+
+Сохранить профиль
+
+</button>
 
 </form>
 
 </div>
 
-</body>
-</html>
+{% endblock %}

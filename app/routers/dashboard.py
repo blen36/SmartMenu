@@ -1,8 +1,10 @@
 from fastapi import APIRouter, Request, Depends
 from fastapi.templating import Jinja2Templates
+from fastapi.responses import RedirectResponse
 from sqlalchemy.orm import Session
 
 from app.core.dependencies import get_db
+from app.models.profile import UserProfile
 from app.models.recipes import Recipe
 
 router = APIRouter()
@@ -13,22 +15,20 @@ templates = Jinja2Templates(directory="app/templates")
 @router.get("/dashboard")
 def dashboard(request: Request, db: Session = Depends(get_db)):
 
-    recipes = db.query(Recipe).limit(3).all()
+    user_id = request.session.get("user_id")
 
-    # пока значения статические
-    calories = 1850
-    protein = 120
-    fat = 60
-    carbs = 210
+    if not user_id:
+        return RedirectResponse("/login-page", status_code=302)
+
+    profile = db.query(UserProfile).filter(UserProfile.user_id == user_id).first()
+
+    recipes = db.query(Recipe).limit(6).all()
 
     return templates.TemplateResponse(
         "dashboard.html",
         {
             "request": request,
-            "recipes": recipes,
-            "calories": calories,
-            "protein": protein,
-            "fat": fat,
-            "carbs": carbs
+            "profile": profile,
+            "recipes": recipes
         }
     )

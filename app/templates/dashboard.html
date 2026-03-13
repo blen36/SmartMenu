@@ -15,6 +15,24 @@ Dashboard
 Ваш профиль
 </h2>
 
+{% if profile %}
+
+<p class="text-green-600 font-medium">
+Профиль заполнен
+</p>
+
+<a href="/profile">
+
+<button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">
+
+Редактировать профиль
+
+</button>
+
+</a>
+
+{% else %}
+
 <p class="text-slate-600">
 Заполните профиль, чтобы получать рекомендации питания
 </p>
@@ -22,10 +40,14 @@ Dashboard
 <a href="/profile-form">
 
 <button class="mt-4 bg-green-600 text-white px-4 py-2 rounded">
+
 Заполнить профиль
+
 </button>
 
 </a>
+
+{% endif %}
 
 </div>
 
