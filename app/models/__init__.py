@@ -4,3 +4,6 @@ from .product import Product
 from .recipes import Recipe
 from .meal_plan import MealPlan
 from .shopping_list import ShoppingList
+from .viewed_recipe import ViewedRecipe, RecipeRating
+from .nutrition_cache import NutritionCache
+from .interactions import RecipeInteraction

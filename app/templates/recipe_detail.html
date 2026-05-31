@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="bg-white p-6 rounded-xl shadow">
+
+<h1 class="text-3xl font-bold mb-4">
+{{ recipe.name }}
+</h1>
+
+<img src="{{ recipe.image }}" class="w-full h-80 object-cover rounded mb-6">
+
+<p class="text-gray-500 mb-4">
+{{ recipe.category }} • {{ recipe.area }}
+</p>
+
+<!-- КБЖУ -->
+<div class="mb-6 text-sm text-gray-700">
+{% if recipe.calories %}
+🔥 {{ recipe.calories }} kcal |
+P {{ recipe.protein }}g |
+F {{ recipe.fat }}g |
+C {{ recipe.carbs }}g
+{% else %}
+🔥 Нет данных
+{% endif %}
+</div>
+
+<h2 class="text-xl font-semibold mb-2">Ингредиенты</h2>
+
+<ul class="mb-6">
+{% for ingredient in recipe.ingredients %}
+<li>• {{ ingredient }}</li>
+{% endfor %}
+</ul>
+
+<h2 class="text-xl font-semibold mb-2">Приготовление</h2>
+
+<p class="mb-6 whitespace-pre-line">
+{{ recipe.instructions }}
+</p>
+
+{% if recipe.youtube %}
+<a href="{{ recipe.youtube }}" target="_blank" class="text-red-500">
+▶ Смотреть на YouTube
+</a>
+{% endif %}
+
+</div>
+
+{% endblock %}

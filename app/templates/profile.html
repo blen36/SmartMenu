@@ -2,41 +2,199 @@
 
 {% block content %}
 
-<h1 class="text-3xl font-bold mb-8">
-Profile
+<div class="mb-10">
+<h1 class="text-4xl font-bold mb-2">
+Профиль
 </h1>
+<p class="text-slate-500">
+Ваши параметры используются для расчёта дневной нормы и персонализации рекомендаций.
+</p>
+</div>
 
 {% if profile %}
 
-<div class="bg-white p-6 rounded-xl shadow w-96">
+<div class="grid lg:grid-cols-3 gap-8 mb-10">
 
-<p><b>Возраст:</b> {{profile.age}}</p>
-<p><b>Рост:</b> {{profile.height}} см</p>
-<p><b>Вес:</b> {{profile.weight}} кг</p>
-<p><b>Цель:</b> {{profile.goal}}</p>
-<p><b>Аллергии:</b> {{profile.allergies}}</p>
+<div class="lg:col-span-2 bg-white rounded-3xl shadow-sm border border-slate-100 p-8">
+
+<div class="flex justify-between items-start mb-8">
+
+<div>
+<p class="text-sm text-green-600 font-semibold mb-2">SmartMenu profile</p>
+<h2 class="text-2xl font-bold">
+Основные параметры
+</h2>
+</div>
 
 <a href="/profile-form">
-
-<button class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">
-Редактировать профиль
+<button class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-xl transition">
+Редактировать
 </button>
+</a>
 
+</div>
+
+<div class="grid md:grid-cols-3 gap-5 mb-8">
+
+<div class="bg-slate-50 rounded-2xl p-5">
+<p class="text-sm text-slate-500 mb-1">Возраст</p>
+<p class="text-2xl font-bold">{{ profile.age }}</p>
+<p class="text-xs text-slate-400 mt-1">лет</p>
+</div>
+
+<div class="bg-slate-50 rounded-2xl p-5">
+<p class="text-sm text-slate-500 mb-1">Рост</p>
+<p class="text-2xl font-bold">{{ profile.height|round(0) }}</p>
+<p class="text-xs text-slate-400 mt-1">см</p>
+</div>
+
+<div class="bg-slate-50 rounded-2xl p-5">
+<p class="text-sm text-slate-500 mb-1">Вес</p>
+<p class="text-2xl font-bold">{{ profile.weight|round(1) }}</p>
+<p class="text-xs text-slate-400 mt-1">кг</p>
+</div>
+
+</div>
+
+<div class="grid md:grid-cols-2 gap-5">
+
+<div class="border border-slate-100 rounded-2xl p-5">
+<p class="text-sm text-slate-500 mb-2">Пол</p>
+<p class="font-semibold">
+{% if profile.gender == "female" %}
+Женщина
+{% else %}
+Мужчина
+{% endif %}
+</p>
+</div>
+
+<div class="border border-slate-100 rounded-2xl p-5">
+<p class="text-sm text-slate-500 mb-2">Активность</p>
+<p class="font-semibold">
+{% if profile.activity_level == "low" %}Низкая{% endif %}
+{% if profile.activity_level == "medium" %}Средняя{% endif %}
+{% if profile.activity_level == "high" %}Высокая{% endif %}
+{% if profile.activity_level == "very_high" %}Очень высокая{% endif %}
+</p>
+</div>
+
+<div class="border border-slate-100 rounded-2xl p-5">
+<p class="text-sm text-slate-500 mb-2">Цель</p>
+
+{% if profile.goal == "lose" %}
+<span class="inline-flex bg-blue-50 text-blue-700 px-3 py-1 rounded-full text-sm font-medium">
+Похудение
+</span>
+{% elif profile.goal == "gain" %}
+<span class="inline-flex bg-orange-50 text-orange-700 px-3 py-1 rounded-full text-sm font-medium">
+Набор мышечной массы
+</span>
+{% else %}
+<span class="inline-flex bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+Поддержание веса
+</span>
+{% endif %}
+</div>
+
+<div class="border border-slate-100 rounded-2xl p-5">
+<p class="text-sm text-slate-500 mb-2">Ограничения</p>
+<p class="font-semibold">
+{{ profile.allergies or "Не указаны" }}
+</p>
+</div>
+
+</div>
+
+</div>
+
+<div class="bg-gradient-to-br from-green-600 to-emerald-700 rounded-3xl shadow-sm p-8 text-white">
+
+<p class="text-green-100 font-semibold mb-2">
+Дневная норма
+</p>
+
+<h2 class="text-4xl font-bold mb-8">
+{{ profile.daily_calories|round(0) }} kcal
+</h2>
+
+<div class="space-y-5">
+
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span>Белки</span>
+<span>{{ profile.daily_protein|round(0) }} г</span>
+</div>
+<div class="h-2 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-white rounded-full" style="width: 70%;"></div>
+</div>
+</div>
+
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span>Жиры</span>
+<span>{{ profile.daily_fat|round(0) }} г</span>
+</div>
+<div class="h-2 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-white rounded-full" style="width: 45%;"></div>
+</div>
+</div>
+
+<div>
+<div class="flex justify-between text-sm mb-2">
+<span>Углеводы</span>
+<span>{{ profile.daily_carbs|round(0) }} г</span>
+</div>
+<div class="h-2 bg-white/20 rounded-full overflow-hidden">
+<div class="h-full bg-white rounded-full" style="width: 80%;"></div>
+</div>
+</div>
+
+</div>
+
+<p class="text-sm text-green-50 mt-8">
+Эти значения используются для начальных рекомендаций и генерации меню на неделю.
+</p>
+
+</div>
+
+</div>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+<a href="/dashboard" class="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-md transition block">
+<p class="text-3xl mb-3">🍽️</p>
+<h3 class="font-bold mb-1">Рекомендации</h3>
+<p class="text-sm text-slate-500">Перейти к персональной подборке блюд.</p>
+</a>
+
+<a href="/planner" class="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-md transition block">
+<p class="text-3xl mb-3">📅</p>
+<h3 class="font-bold mb-1">План питания</h3>
+<p class="text-sm text-slate-500">Собрать меню на неделю.</p>
+</a>
+
+<a href="/shopping-list" class="bg-white border border-slate-100 rounded-2xl p-6 hover:shadow-md transition block">
+<p class="text-3xl mb-3">🛒</p>
+<h3 class="font-bold mb-1">Список покупок</h3>
+<p class="text-sm text-slate-500">Подготовить продукты для меню.</p>
 </a>
 
 </div>
 
 {% else %}
 
-<p>Профиль ещё не заполнен</p>
+<div class="bg-white p-8 rounded-3xl shadow-sm">
+<p class="mb-4 text-slate-500">
+Профиль ещё не заполнен.
+</p>
 
-<a href="/profile-form">
-
-<button class="bg-green-600 text-white px-4 py-2 rounded">
-Заполнить профиль
+<a href="/onboarding">
+<button class="bg-green-600 hover:bg-green-700 text-white px-5 py-3 rounded-xl">
+Заполнить анкету
 </button>
-
 </a>
+</div>
 
 {% endif %}
 

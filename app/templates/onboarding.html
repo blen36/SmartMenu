@@ -2,62 +2,170 @@
 
 {% block content %}
 
-<div class="max-w-xl mx-auto">
+<div class="max-w-2xl mx-auto">
 
-<!-- progress -->
+<div class="bg-white rounded-3xl shadow-sm p-10">
 
-<div class="w-full bg-gray-200 rounded-full h-3 mb-10">
+<div class="mb-8">
+<p class="text-green-600 font-semibold mb-2">SmartMenu onboarding</p>
 
-<div class="bg-green-500 h-3 rounded-full"
-style="width: {{step * 12.5}}%">
+<h1 class="text-3xl font-bold mb-3">
+Настроим рекомендации под вас
+</h1>
+
+<p class="text-slate-500">
+Введите базовые параметры. До регистрации они временно сохраняются в сессии,
+а после создания аккаунта будут записаны в базу данных.
+</p>
+</div>
+
+<form action="/onboarding" method="post" class="space-y-5">
+
+<div class="grid md:grid-cols-3 gap-4">
+
+<div>
+<label class="block text-sm font-medium mb-1">Возраст</label>
+<input
+type="number"
+name="age"
+min="12"
+max="100"
+value="{{ data.age if data.age else '' }}"
+required
+class="w-full border border-slate-300 rounded-xl px-4 py-3"
+/>
+</div>
+
+<div>
+<label class="block text-sm font-medium mb-1">Рост, см</label>
+<input
+type="number"
+name="height"
+min="120"
+max="230"
+value="{{ data.height if data.height else '' }}"
+required
+class="w-full border border-slate-300 rounded-xl px-4 py-3"
+/>
+</div>
+
+<div>
+<label class="block text-sm font-medium mb-1">Вес, кг</label>
+<input
+type="number"
+name="weight"
+min="35"
+max="250"
+step="0.1"
+value="{{ data.weight if data.weight else '' }}"
+required
+class="w-full border border-slate-300 rounded-xl px-4 py-3"
+/>
 </div>
 
 </div>
 
+<div>
+<label class="block text-sm font-medium mb-1">Пол</label>
 
-{% if step == 1 %}
+<select name="gender" required class="w-full border border-slate-300 rounded-xl px-4 py-3">
 
-<h2 class="text-xl font-semibold mb-6">
-Что вы хотите достичь?
-</h2>
-
-<div class="space-y-4">
-
-<button class="option">Похудеть</button>
-<button class="option">Поддерживать вес</button>
-<button class="option">Набрать массу</button>
-<button class="option">Улучшить питание</button>
-
-</div>
-
+{% if data.gender == "male" %}
+<option value="male" selected>Мужчина</option>
+{% else %}
+<option value="male">Мужчина</option>
 {% endif %}
 
-
-{% if step == 2 %}
-
-<h2 class="text-xl font-semibold mb-6">
-Ваш пол
-</h2>
-
-<div class="space-y-4">
-
-<button class="option">Мужчина</button>
-<button class="option">Женщина</button>
-
-</div>
-
+{% if data.gender == "female" %}
+<option value="female" selected>Женщина</option>
+{% else %}
+<option value="female">Женщина</option>
 {% endif %}
 
+</select>
+</div>
 
-<div class="mt-10 text-right">
+<div>
+<label class="block text-sm font-medium mb-1">Уровень активности</label>
 
-<a href="/onboarding/{{step + 1}}">
+<select name="activity_level" required class="w-full border border-slate-300 rounded-xl px-4 py-3">
 
-<button class="bg-black text-white px-6 py-3 rounded-lg">
-Следующий
+{% if data.activity_level == "low" %}
+<option value="low" selected>Низкая — преимущественно сидячий образ жизни</option>
+{% else %}
+<option value="low">Низкая — преимущественно сидячий образ жизни</option>
+{% endif %}
+
+{% if data.activity_level == "medium" %}
+<option value="medium" selected>Средняя — прогулки и небольшие физические нагрузки</option>
+{% else %}
+<option value="medium">Средняя — прогулки и небольшие физические нагрузки</option>
+{% endif %}
+
+{% if data.activity_level == "high" %}
+<option value="high" selected>Высокая — тренировки около 3 раз в неделю или физический труд</option>
+{% else %}
+<option value="high">Высокая — тренировки около 3 раз в неделю или физический труд</option>
+{% endif %}
+
+{% if data.activity_level == "very_high" %}
+<option value="very_high" selected>Очень высокая — спортсмены, тренировки 5–7 раз в неделю</option>
+{% else %}
+<option value="very_high">Очень высокая — спортсмены, тренировки 5–7 раз в неделю</option>
+{% endif %}
+
+</select>
+</div>
+
+<div>
+<label class="block text-sm font-medium mb-1">Цель</label>
+
+<select name="goal" required class="w-full border border-slate-300 rounded-xl px-4 py-3">
+
+{% if data.goal == "maintain" %}
+<option value="maintain" selected>Поддержание веса</option>
+{% else %}
+<option value="maintain">Поддержание веса</option>
+{% endif %}
+
+{% if data.goal == "lose" %}
+<option value="lose" selected>Похудение</option>
+{% else %}
+<option value="lose">Похудение</option>
+{% endif %}
+
+{% if data.goal == "gain" %}
+<option value="gain" selected>Набор мышечной массы</option>
+{% else %}
+<option value="gain">Набор мышечной массы</option>
+{% endif %}
+
+</select>
+</div>
+
+<div>
+<label class="block text-sm font-medium mb-1">
+Аллергии или нежелательные продукты
+</label>
+
+<input
+type="text"
+name="allergies"
+value="{{ data.allergies if data.allergies else '' }}"
+placeholder="Например: peanuts, milk, seafood"
+class="w-full border border-slate-300 rounded-xl px-4 py-3"
+/>
+
+<p class="text-xs text-slate-400 mt-1">
+Лучше вводить на английском, так как датасеты и API используют английские названия продуктов.
+</p>
+</div>
+
+<button class="w-full bg-green-600 hover:bg-green-700 text-white py-4 rounded-xl font-semibold transition">
+Продолжить
 </button>
 
-</a>
+</form>
 
 </div>
 

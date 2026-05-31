@@ -6,59 +6,114 @@
 Редактирование профиля
 </h1>
 
-<div class="bg-white p-8 rounded-xl shadow w-96">
+<div class="bg-white p-8 rounded-xl shadow max-w-xl">
 
 <form action="/save-profile" method="post" class="space-y-4">
 
 <input
 type="number"
 name="age"
-value="{{profile.age if profile else ''}}"
 placeholder="Возраст"
+value="{{ profile.age if profile else '' }}"
+required
 class="w-full border p-3 rounded"
 />
 
 <input
 type="number"
 name="height"
-value="{{profile.height if profile else ''}}"
 placeholder="Рост (см)"
+value="{{ profile.height if profile else '' }}"
+required
 class="w-full border p-3 rounded"
 />
 
 <input
 type="number"
 name="weight"
-value="{{profile.weight if profile else ''}}"
 placeholder="Вес (кг)"
+step="0.1"
+value="{{ profile.weight if profile else '' }}"
+required
 class="w-full border p-3 rounded"
 />
 
-<select
-name="goal"
-class="w-full border p-3 rounded"
->
+<select name="gender" class="w-full border p-3 rounded">
 
-<option value="lose_weight">Похудение</option>
-<option value="maintain">Поддержание</option>
-<option value="gain_weight">Набор массы</option>
+{% if profile and profile.gender == "male" %}
+<option value="male" selected>Мужчина</option>
+{% else %}
+<option value="male">Мужчина</option>
+{% endif %}
+
+{% if profile and profile.gender == "female" %}
+<option value="female" selected>Женщина</option>
+{% else %}
+<option value="female">Женщина</option>
+{% endif %}
+
+</select>
+
+<select name="activity_level" class="w-full border p-3 rounded">
+
+{% if profile and profile.activity_level == "low" %}
+<option value="low" selected>Низкая — сидячий образ жизни</option>
+{% else %}
+<option value="low">Низкая — сидячий образ жизни</option>
+{% endif %}
+
+{% if profile and profile.activity_level == "medium" %}
+<option value="medium" selected>Средняя — прогулки, небольшие нагрузки</option>
+{% else %}
+<option value="medium">Средняя — прогулки, небольшие нагрузки</option>
+{% endif %}
+
+{% if profile and profile.activity_level == "high" %}
+<option value="high" selected>Высокая — тренировки около 3 раз в неделю</option>
+{% else %}
+<option value="high">Высокая — тренировки около 3 раз в неделю</option>
+{% endif %}
+
+{% if profile and profile.activity_level == "very_high" %}
+<option value="very_high" selected>Очень высокая — тренировки 5–7 раз в неделю</option>
+{% else %}
+<option value="very_high">Очень высокая — тренировки 5–7 раз в неделю</option>
+{% endif %}
+
+</select>
+
+<select name="goal" class="w-full border p-3 rounded">
+
+{% if profile and profile.goal == "maintain" %}
+<option value="maintain" selected>Поддержание веса</option>
+{% else %}
+<option value="maintain">Поддержание веса</option>
+{% endif %}
+
+{% if profile and profile.goal == "lose" %}
+<option value="lose" selected>Похудение</option>
+{% else %}
+<option value="lose">Похудение</option>
+{% endif %}
+
+{% if profile and profile.goal == "gain" %}
+<option value="gain" selected>Набор мышечной массы</option>
+{% else %}
+<option value="gain">Набор мышечной массы</option>
+{% endif %}
 
 </select>
 
 <input
 type="text"
 name="allergies"
-value="{{profile.allergies if profile else ''}}"
-placeholder="Аллергии"
+placeholder="Аллергии или нежелательные продукты"
+value="{{ profile.allergies if profile and profile.allergies else '' }}"
 class="w-full border p-3 rounded"
 />
 
-<button
-class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded w-full"
->
-
+<button class="bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded w-full">
 Сохранить профиль
-
 </button>
 
 </form>

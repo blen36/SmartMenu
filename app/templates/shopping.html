@@ -2,24 +2,204 @@
 
 {% block content %}
 
-<h1 class="text-3xl font-bold mb-8">
-Shopping List
+<div class="flex justify-between items-start mb-10">
+
+<div>
+<h1 class="text-4xl font-bold mb-2">
+Список покупок
 </h1>
+<p class="text-slate-500">
+Ищите ингредиенты через Spoonacular или сформируйте список на основе недельного плана питания.
+</p>
+</div>
 
+<div class="flex gap-3">
 
-<div class="bg-white rounded-xl shadow p-6">
+<a href="/generate-shopping-week">
+<button class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-3 rounded-xl transition">
+Из плана питания
+</button>
+</a>
 
-{% for item in items %}
+<form action="/clear-cart" method="post">
+<button class="bg-slate-100 hover:bg-slate-200 text-slate-700 px-5 py-3 rounded-xl transition">
+Очистить
+</button>
+</form>
 
-<div class="flex justify-between border-b py-3">
+</div>
 
-<span>{{item.product_name}}</span>
+</div>
 
-<span class="text-slate-500">{{item.quantity}}</span>
+<div class="grid lg:grid-cols-3 gap-8">
+
+<div class="lg:col-span-2">
+
+<div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-8 mb-8">
+
+<h2 class="text-xl font-bold mb-4">
+Поиск ингредиентов
+</h2>
+
+<form action="/search-products" method="post" class="flex gap-3">
+
+<input
+name="query"
+value="{{ query }}"
+placeholder="Например: chicken, rice, milk, tomato"
+class="border border-slate-200 rounded-xl px-4 py-3 flex-1 focus:outline-none focus:ring-2 focus:ring-green-500"
+/>
+
+<button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-xl transition">
+Найти
+</button>
+
+</form>
+
+<p class="text-xs text-slate-400 mt-3">
+Лучше вводить продукты на английском языке, так как внешний API использует англоязычную базу ингредиентов.
+</p>
+
+</div>
+
+{% if error %}
+<div class="bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-2xl p-5 mb-8">
+{{ error }}
+</div>
+{% endif %}
+
+{% if products %}
+
+<div class="mb-8">
+
+<h2 class="text-xl font-bold mb-5">
+Найденные ингредиенты
+</h2>
+
+<div class="grid md:grid-cols-3 gap-6">
+
+{% for product in products %}
+
+<div class="bg-white rounded-2xl shadow-sm border border-slate-100 overflow-hidden">
+
+{% if product.image %}
+<img src="{{ product.image }}" class="w-full h-36 object-contain bg-slate-50 p-4">
+{% else %}
+<div class="w-full h-36 bg-slate-50 flex items-center justify-center text-4xl">
+🥦
+</div>
+{% endif %}
+
+<div class="p-5">
+
+<h3 class="font-semibold notranslate" translate="no">
+{{ product.name }}
+</h3>
+
+<p class="text-xs text-slate-400 mt-1 mb-4">
+{{ product.aisle }}
+</p>
+
+<form action="/add-product" method="post">
+
+<input type="hidden" name="product_name" value="{{ product.name }}">
+<input type="hidden" name="image" value="{{ product.image or '' }}">
+
+<input
+name="quantity"
+value="1"
+placeholder="Количество"
+class="border border-slate-200 rounded-lg px-3 py-2 w-full mb-3"
+/>
+
+<button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg transition">
+Добавить
+</button>
+
+</form>
+
+</div>
 
 </div>
 
 {% endfor %}
+
+</div>
+
+</div>
+
+{% endif %}
+
+</div>
+
+<div>
+
+<div class="bg-white rounded-3xl shadow-sm border border-slate-100 p-6 sticky top-28">
+
+<div class="flex justify-between items-center mb-5">
+<h2 class="text-xl font-bold">
+Корзина
+</h2>
+
+<span class="bg-green-50 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+{{ items|length }} поз.
+</span>
+</div>
+
+{% if items %}
+
+<div class="space-y-4">
+
+{% for item in items %}
+
+<div class="flex gap-4 items-center border-b border-slate-100 pb-4">
+
+{% if item.image %}
+<img src="{{ item.image }}" class="w-14 h-14 rounded-xl object-contain bg-slate-50 p-1">
+{% else %}
+<div class="w-14 h-14 rounded-xl bg-slate-100 flex items-center justify-center text-xl">
+🥕
+</div>
+{% endif %}
+
+<div class="flex-1 min-w-0">
+
+<p class="font-semibold truncate notranslate" translate="no">
+{{ item.product_name }}
+</p>
+
+<p class="text-sm text-slate-400">
+{{ item.quantity }}
+</p>
+
+</div>
+
+<form action="/delete-item/{{ item.id }}" method="post">
+<button class="text-slate-400 hover:text-red-500 transition">
+Удалить
+</button>
+</form>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% else %}
+
+<div class="text-center py-10">
+<p class="text-4xl mb-3">🛒</p>
+<p class="text-slate-500">
+Список покупок пока пуст.
+</p>
+</div>
+
+{% endif %}
+
+</div>
+
+</div>
 
 </div>
 

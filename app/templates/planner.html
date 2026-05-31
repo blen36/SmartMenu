@@ -2,14 +2,31 @@
 
 {% block content %}
 
-<h1 class="text-3xl font-bold mb-8">
+<div class="flex justify-between items-center mb-10">
+
+<h1 class="text-4xl font-bold">
 План питания
 </h1>
 
+<div class="flex gap-3">
 
-<!-- SEARCH -->
+<form action="/clear-plan" method="post">
+<button class="bg-red-500 hover:bg-red-600 text-white px-5 py-3 rounded-lg transition">
+Очистить план
+</button>
+</form>
 
-<div class="bg-white p-6 rounded-xl shadow mb-8">
+<a href="/generate-ai-menu">
+<button class="bg-slate-800 hover:bg-slate-900 text-white px-5 py-3 rounded-lg transition">
+AI меню на неделю
+</button>
+</a>
+
+</div>
+
+</div>
+
+<div class="bg-white rounded-2xl shadow-sm p-8 mb-12">
 
 <h2 class="text-xl font-semibold mb-4">
 Поиск рецептов
@@ -19,77 +36,144 @@
 
 <input
 name="query"
-placeholder="Например: chicken, pasta, salad"
-class="border p-3 rounded w-72"
+value="{{ query }}"
+placeholder="Например: chicken, pasta, fish"
+class="border rounded-lg px-4 py-3 w-80"
 />
 
+<button class="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg">
+Поиск
+</button>
+
+</form>
+
+<p class="text-xs text-slate-400 mt-3">
+Поиск выполняется по базе TheMealDB, чтобы показывать рецепты с реальными изображениями и подробной карточкой.
+</p>
+
+</div>
+
+{% if query and not recipes %}
+<div class="bg-yellow-50 border border-yellow-200 text-yellow-800 rounded-xl p-5 mb-8">
+<p class="font-semibold mb-1">
+Рецепты не найдены во внешнем источнике
+</p>
+<p class="text-sm">
+TheMealDB не содержит подходящих рецептов по этому запросу. Попробуйте более общий запрос:
+chicken, pasta, beef, fish, salad, soup, rice.
+</p>
+</div>
+{% endif %}
+
+{% if recipes %}
+
+<div class="grid md:grid-cols-3 gap-8 mb-12">
+
+{% for recipe in recipes %}
+
+{% set user_score = interaction_map.get(recipe.name) %}
+
+<div class="bg-white rounded-2xl shadow-sm overflow-hidden hover:shadow-md transition">
+
+<img src="{{ recipe.image }}" class="w-full h-44 object-cover">
+
+<div class="p-6">
+
+<a href="/recipe/{{ recipe.id }}" class="text-lg font-semibold hover:text-green-600 notranslate" translate="no">
+{{ recipe.name }}
+</a>
+
+<p class="text-slate-500 text-sm mt-1">
+{{ recipe.category }} • {{ recipe.area }}
+</p>
+
+<p class="text-sm text-slate-500 mt-2 mb-4">
+🔥 {{ recipe.calories }} kcal |
+P {{ recipe.protein }}g |
+F {{ recipe.fat }}g |
+C {{ recipe.carbs }}g
+</p>
+
+{% if user_score == 1 %}
+<div class="mb-3 inline-flex items-center gap-2 bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full">
+<span>👍</span>
+<span>Ваш выбор: нравится</span>
+</div>
+{% elif user_score == -1 %}
+<div class="mb-3 inline-flex items-center gap-2 bg-slate-100 text-slate-700 text-xs px-3 py-1 rounded-full">
+<span>👎</span>
+<span>Ваш выбор: не нравится</span>
+</div>
+{% endif %}
+
+<div class="flex gap-2 mb-3">
+
+<form action="/like/{{ recipe.id }}" method="post">
+<input type="hidden" name="recipe_name" value="{{ recipe.name }}">
 <button
-class="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded"
->
-Search
+class="px-3 py-2 rounded-lg border transition
+{% if user_score == 1 %}
+bg-slate-700 text-white border-slate-700
+{% else %}
+bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200
+{% endif %}">
+👍
+</button>
+</form>
+
+<form action="/dislike/{{ recipe.id }}" method="post">
+<input type="hidden" name="recipe_name" value="{{ recipe.name }}">
+<button
+class="px-3 py-2 rounded-lg border transition
+{% if user_score == -1 %}
+bg-slate-700 text-white border-slate-700
+{% else %}
+bg-slate-100 text-slate-600 border-slate-200 hover:bg-slate-200
+{% endif %}">
+👎
+</button>
+</form>
+
+</div>
+
+<a href="/recipe/{{ recipe.id }}">
+<button class="w-full bg-slate-200 hover:bg-slate-300 text-slate-700 py-2 rounded-lg mb-3">
+Посмотреть рецепт
+</button>
+</a>
+
+<form action="/add-meal" method="post">
+
+<input type="hidden" name="recipe_name" value="{{ recipe.name }}">
+<input type="hidden" name="recipe_id" value="{{ recipe.id }}">
+<input type="hidden" name="calories" value="{{ recipe.calories }}">
+<input type="hidden" name="protein" value="{{ recipe.protein }}">
+<input type="hidden" name="fat" value="{{ recipe.fat }}">
+<input type="hidden" name="carbs" value="{{ recipe.carbs }}">
+
+<select name="day_of_week" class="border rounded-lg p-2 w-full mb-2">
+<option>Monday</option>
+<option>Tuesday</option>
+<option>Wednesday</option>
+<option>Thursday</option>
+<option>Friday</option>
+<option>Saturday</option>
+<option>Sunday</option>
+</select>
+
+<select name="meal_type" class="border rounded-lg p-2 w-full mb-3">
+<option>Breakfast</option>
+<option>Lunch</option>
+<option>Dinner</option>
+</select>
+
+<button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded-lg">
+Добавить в план
 </button>
 
 </form>
 
 </div>
-
-
-
-<!-- RESULTS -->
-
-{% if recipes %}
-
-<h2 class="text-xl font-semibold mb-4">
-Результаты поиска
-</h2>
-
-<div class="grid grid-cols-3 gap-6 mb-10">
-
-{% for recipe in recipes %}
-
-<div class="bg-white shadow rounded-xl p-4">
-
-<img
-src="{{recipe.image}}"
-class="mb-4 rounded-lg w-full h-40 object-cover"
-/>
-
-<h3 class="font-semibold mb-3">
-{{recipe.name}}
-</h3>
-
-<form action="/add-meal" method="post">
-
-<input
-type="hidden"
-name="recipe_name"
-value="{{recipe.name}}"
-/>
-
-<select
-name="day_of_week"
-class="border p-2 rounded mb-3 w-full"
->
-
-<option value="Monday">Monday</option>
-<option value="Tuesday">Tuesday</option>
-<option value="Wednesday">Wednesday</option>
-<option value="Thursday">Thursday</option>
-<option value="Friday">Friday</option>
-<option value="Saturday">Saturday</option>
-<option value="Sunday">Sunday</option>
-
-</select>
-
-<button
-class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full"
->
-
-Добавить в меню
-
-</button>
-
-</form>
 
 </div>
 
@@ -97,64 +181,63 @@ class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full"
 
 </div>
 
-{% elif recipes is defined %}
+{% endif %}
 
-<p class="text-slate-500 mb-8">
-Ничего не найдено
+{% for day in days_order %}
+
+<div class="bg-white rounded-2xl shadow-sm p-8 mb-8">
+
+<h2 class="text-xl font-bold mb-4">
+{{ day }}
+</h2>
+
+{% if plans[day] %}
+
+{% for plan in plans[day] %}
+
+<div class="flex justify-between items-center border-b py-4">
+
+<div>
+<p class="text-sm text-slate-500">{{ plan.meal_type }}</p>
+
+{% if plan.recipe_id %}
+<a href="/recipe/{{ plan.recipe_id }}" class="font-semibold hover:text-green-600 notranslate" translate="no">
+{{ plan.recipe_name }}
+</a>
+{% else %}
+<p class="font-semibold notranslate" translate="no">
+{{ plan.recipe_name }}
+</p>
+{% endif %}
+
+<p class="text-sm text-slate-400">
+🔥 {{ plan.calories or 0 }} kcal |
+P {{ plan.protein or 0 }} |
+F {{ plan.fat or 0 }} |
+C {{ plan.carbs or 0 }}
+</p>
+</div>
+
+<form action="/delete-meal/{{ plan.id }}" method="post">
+<button class="text-red-500 hover:text-red-600">
+Удалить
+</button>
+</form>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<p class="text-slate-400 text-sm">
+Нет блюд на этот день.
 </p>
 
 {% endif %}
 
-
-
-<!-- WEEK PLAN -->
-
-<h2 class="text-xl font-semibold mb-4">
-Ваш план питания
-</h2>
-
-<div class="bg-white rounded-xl shadow">
-
-<table class="w-full">
-
-<thead class="border-b">
-
-<tr>
-
-<th class="p-4 text-left">
-День
-</th>
-
-<th class="p-4 text-left">
-Рецепт
-</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-{% for plan in plans %}
-
-<tr class="border-b">
-
-<td class="p-4">
-{{plan.day_of_week}}
-</td>
-
-<td class="p-4">
-{{plan.recipe_name}}
-</td>
-
-</tr>
+</div>
 
 {% endfor %}
-
-</tbody>
-
-</table>
-
-</div>
 
 {% endblock %}

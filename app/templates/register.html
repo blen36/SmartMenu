@@ -10,12 +10,25 @@
 Регистрация
 </h2>
 
+{% if has_onboarding %}
+<div class="bg-green-50 text-green-700 p-3 rounded mb-4 text-sm">
+Параметры анкеты сохранены. После регистрации мы создадим ваш профиль.
+</div>
+{% endif %}
+
+{% if error %}
+<div class="bg-red-100 text-red-700 p-3 rounded mb-4">
+{{ error }}
+</div>
+{% endif %}
+
 <form action="/register-form" method="post" class="space-y-4">
 
 <input
 type="email"
 name="email"
 placeholder="Email"
+required
 class="w-full border p-3 rounded"
 />
 
@@ -23,27 +36,21 @@ class="w-full border p-3 rounded"
 type="password"
 name="password"
 placeholder="Password"
+required
 class="w-full border p-3 rounded"
 />
 
-<button
-class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded"
->
-
+<button class="w-full bg-green-600 hover:bg-green-700 text-white py-2 rounded">
 Создать аккаунт
-
 </button>
 
 </form>
 
 <p class="text-center mt-4 text-sm text-slate-600">
-
 Уже есть аккаунт?
-
 <a href="/login-page" class="text-green-600">
 Войти
 </a>
-
 </p>
 
 </div>

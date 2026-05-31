@@ -1,0 +1,120 @@
+body{
+    margin:0;
+    font-family: Inter, sans-serif;
+    background:#f8fafc;
+    color:#0f172a;
+}
+
+/* NAVBAR */
+
+.navbar{
+    background:white;
+    padding:18px 40px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.nav-links{
+    display:flex;
+    gap:28px;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#334155;
+    font-weight:500;
+}
+
+.nav-links a:hover{
+    color:#22c55e;
+}
+
+/* CONTAINER */
+
+.container{
+    max-width:1200px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+/* TITLES */
+
+h1{
+    font-size:34px;
+    margin-bottom:30px;
+}
+
+h2{
+    font-size:24px;
+}
+
+/* GRID */
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:25px;
+}
+
+/* CARD */
+
+.card{
+    background:white;
+    border-radius:14px;
+    padding:24px;
+    box-shadow:0 6px 16px rgba(0,0,0,0.05);
+}
+
+/* BUTTONS */
+
+.btn{
+    border:none;
+    padding:12px 18px;
+    border-radius:8px;
+    font-size:14px;
+    cursor:pointer;
+}
+
+.btn-primary{
+    background:#22c55e;
+    color:white;
+}
+
+.btn-primary:hover{
+    background:#16a34a;
+}
+
+.btn-secondary{
+    background:#e2e8f0;
+}
+
+.btn-danger{
+    background:#ef4444;
+    color:white;
+}
+
+/* RECIPE CARD */
+
+.recipe-card img{
+    width:100%;
+    height:180px;
+    object-fit:cover;
+    border-radius:10px;
+    margin-bottom:12px;
+}
+
+.recipe-info{
+    font-size:14px;
+    color:#64748b;
+}
+
+/* PLAN */
+
+.meal{
+    display:flex;
+    justify-content:space-between;
+    border-bottom:1px solid #e2e8f0;
+    padding:12px 0;
+}

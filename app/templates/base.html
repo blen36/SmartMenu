@@ -1,60 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ru">
 
 <head>
-
 <meta charset="UTF-8">
+<meta name="google" content="notranslate">
 <title>SmartMenu</title>
-
 <script src="https://cdn.tailwindcss.com"></script>
-
-<link rel="stylesheet" href="/static/css/style.css">
-
 </head>
-
 
 <body class="bg-slate-50 text-slate-800">
 
-<!-- NAVBAR -->
+<nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
 
-<nav class="bg-white border-b border-slate-200 shadow-sm">
-
-<div class="max-w-6xl mx-auto flex justify-between items-center p-4">
+<div class="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
 
 <a href="/" class="text-2xl font-bold text-green-600">
 SmartMenu
 </a>
 
+<div class="flex items-center gap-8 text-slate-600 font-medium">
 
-<div class="space-x-6 text-slate-600 font-medium">
+{% if request.session.get("user_id") %}
 
-<a href="/dashboard" class="hover:text-green-600">
+<a href="/dashboard" class="hover:text-green-600 transition">
 Dashboard
 </a>
 
-<a href="/recipes" class="hover:text-green-600">
-Recipes
-</a>
-
-<a href="/products" class="hover:text-green-600">
-Products
-</a>
-
-<a href="/planner" class="hover:text-green-600">
+<a href="/planner" class="hover:text-green-600 transition">
 Planner
 </a>
 
-<a href="/shopping-list" class="hover:text-green-600">
+<a href="/shopping-list" class="hover:text-green-600 transition">
 Shopping
 </a>
 
-<a href="/profile" class="hover:text-green-600">
+<a href="/profile" class="hover:text-green-600 transition">
 Profile
 </a>
 
-<a href="/logout" class="text-red-500 hover:text-red-600">
+<a href="/logout" class="text-red-500 hover:text-red-600 transition">
 Logout
 </a>
+
+{% else %}
+
+<a href="/onboarding" class="hover:text-green-600 transition">
+Start
+</a>
+
+<a href="/login-page" class="hover:text-green-600 transition">
+Login
+</a>
+
+{% endif %}
 
 </div>
 
@@ -62,26 +60,14 @@ Logout
 
 </nav>
 
-
-<!-- PAGE CONTENT -->
-
-<div class="max-w-6xl mx-auto p-8">
-
+<div class="max-w-7xl mx-auto px-6 py-10">
 {% block content %}
-
 {% endblock %}
-
 </div>
 
-
-<!-- FOOTER -->
-
-<footer class="mt-10 border-t border-slate-200 py-6 text-center text-slate-500 text-sm">
-
+<footer class="mt-20 border-t border-slate-200 py-6 text-center text-slate-400 text-sm">
 SmartMenu © 2026
-
 </footer>
-
 
 </body>
 </html>

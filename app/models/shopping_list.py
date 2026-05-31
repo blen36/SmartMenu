@@ -13,3 +13,5 @@ class ShoppingList(Base):
     product_name = Column(String)
 
     quantity = Column(String)
+
+    image = Column(String, nullable=True)
